@@ -1,0 +1,31 @@
+{
+  "name": "@ayorcodes/remita-js",
+  "version": "1.0.0",
+  "description": "Remita JS SDK",
+  "main": "dist/src/index.js",
+  "repository": "https://github.com/ayorcodes/remita-js.git",
+  "author": "Ayomide Adejola",
+  "license": "MIT",
+  "scripts": {
+    "start": "node dist/src/index.js",
+    "clean": "rimraf coverage build tmp",
+    "prebuild": "npm run lint",
+    "build": "tsc -p tsconfig.release.json",
+    "build:watch": "tsc -w -p tsconfig.release.json",
+    "lint": "eslint . --ext .ts,.tsx",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "test:watch": "jest --watch"
+  },
+  "dependencies": {
+    "axios": "^0.26.0",
+    "js-sha512": "^0.8.0",
+    "remita": "^1.0.6",
+    "tslib": "~2.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.21",
+    "nodemon": "^2.0.15",
+    "ts-node": "^10.7.0",
+    "typescript": "^4.6.2"
+  }
+}
