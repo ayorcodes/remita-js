@@ -157,6 +157,7 @@ export class Helper {
 
   static process(operation: string, opts, config) {
     const d = new Date();
+
     const {
       merchantId,
       serviceTypeId,
@@ -165,6 +166,7 @@ export class Helper {
       publicKey,
       signature,
     } = config;
+
     let {
       requestId,
       amount,
@@ -237,7 +239,6 @@ export class Helper {
     }
 
     const timeStamp = this.timeStamp(d);
-    // console.log({ preHash });
     const hash = sha512(preHash);
 
     return {

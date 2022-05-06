@@ -2,7 +2,10 @@ import { RemitaOperations } from '../../constants/operations';
 import { IBaseResponse } from '../../shared/base-response';
 import { BaseService } from '../../shared/base-service';
 import { Helper } from '../../shared/helpers';
-import { ICreateInvoiceResponse, InvoiceStatusResponse } from './invoice.responses';
+import {
+  ICreateInvoiceResponse,
+  InvoiceStatusResponse,
+} from './invoice.responses';
 import {
   ICreateCustomFieldsInvoice,
   ICreateCustomFieldsSplitPaymentInvoice,
@@ -12,7 +15,7 @@ import {
   InvoiceStatusRRR,
 } from './invoices.dto';
 
-let key = 'invoice';
+const key = 'invoice';
 
 export class InvoiceService extends BaseService {
   constructor() {
@@ -60,7 +63,9 @@ export class InvoiceService extends BaseService {
     return Helper.handleResponse(response);
   }
 
-  async status(dto: InvoiceStatusRRR | InvoiceStatusOrderId):Promise<InvoiceStatusResponse> {
+  async status(
+    dto: InvoiceStatusRRR | InvoiceStatusOrderId
+  ): Promise<InvoiceStatusResponse> {
     const { merchantId, invoiceHeaders, requestId } = this.process(
       RemitaOperations.invoice.status,
       dto
