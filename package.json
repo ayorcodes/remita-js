@@ -1,6 +1,6 @@
 {
   "name": "@ayorcodes/remita-js",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Remita JS SDK",
   "main": "dist/src/index.js",
   "repository": "https://github.com/ayorcodes/remita-js.git",
