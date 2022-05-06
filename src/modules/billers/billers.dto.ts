@@ -1,3 +1,8 @@
+export interface CustomField {
+  id: string;
+  values: Value[];
+}
+
 export interface IValidateRequest {
   customFields: CustomField[];
   // billId: string;
@@ -7,11 +12,6 @@ export interface IValidateRequest {
   currency: string;
   payerName: string;
   payerEmail: string;
-}
-
-export interface CustomField {
-  id: string;
-  values: Value[];
 }
 
 export interface Value {

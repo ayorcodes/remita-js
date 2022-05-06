@@ -7,7 +7,7 @@ import {
   IFetchServicesResponse,
 } from './billers.responses';
 
-let key = 'biller';
+const key = 'biller';
 
 export class BillerService extends BaseService {
   constructor() {
