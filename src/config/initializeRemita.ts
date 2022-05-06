@@ -26,8 +26,8 @@ export const initializeRemita = async (
         'SGlQekNzMEdMbjhlRUZsUzJCWk5saDB6SU14Zk15djR4WmkxaUpDTll6bGIxRCs4UkVvaGhnPT0=',
       environment: 'dev',
       auth: {
-        username: 'K9U6PFCLIID7MAN5',
-        password: '5D5QVBNDMXU56TEWTO1QTXPOGOZL4TRV',
+        username: 'UHSU6ZIMAVXNZHXW',
+        password: 'K8JE73OFE508GMOW9VWLX5SLH5QG1PF2',
       },
     });
   } else {
