@@ -3,6 +3,7 @@
   "version": "1.0.3",
   "description": "Remita JS SDK",
   "main": "dist/src/index.js",
+  "types": "dist/src/index.d.ts",
   "repository": "https://github.com/ayorcodes/remita-js.git",
   "author": "Ayomide Adejola",
   "license": "MIT",
