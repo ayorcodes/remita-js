@@ -16,7 +16,6 @@ import axios from 'axios';
 export const initializeRemita = async (
   config: IRemitaTestConfig | IRemitaLiveConfig
 ) => {
-  console.log('called init');
   if (config.environment == 'dev') {
     setConfig({
       merchantId: '27768931',
@@ -42,12 +41,8 @@ export const initializeRemita = async (
     },
   });
 
-  console.log(api.defaults.baseURL);
-  console.log(configuration.auth);
-
   const response = await api.post('uaasvc/uaa/token', configuration.auth);
   const result = Helper.handleResponse(response, 'global', false);
-  console.log(result);
   setToken(result.data[0].accessToken);
 
   return configuration;

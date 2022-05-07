@@ -32,3 +32,40 @@ export interface ISendPaymentNotification {
   fundingSource: string;
   hash: string;
 }
+
+export interface IValidateCustomer {
+  billPaymentProductId: string;
+  customerId: string;
+}
+
+export interface IInitiateTransaction {
+  billPaymentProductId: string;
+  amount: number;
+  transactionRef: string;
+  name: string;
+  email: string;
+  phoneNumber: string;
+  customerId: string;
+  metadata?: Metadata;
+}
+
+export interface Metadata {
+  customFields?: CustomField2[];
+}
+
+export interface CustomField2 {
+  variable_name: string;
+  value: string;
+}
+
+export interface ICreateBillPaymentNotification {
+  rrr: string;
+  transactionRef: string;
+  amount: number;
+  channel: string;
+  metadata: Metadata2;
+}
+
+export interface Metadata2 {
+  fundingSource: string;
+}

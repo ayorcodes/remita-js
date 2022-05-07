@@ -1,4 +1,5 @@
 import { AxiosResponse } from 'axios';
+import { isArray } from 'util';
 import { bearerToken } from '../config/configuration';
 import { RemitaOperations } from '../constants/operations';
 import { statusCodes } from '../constants/statusCodes';
@@ -123,18 +124,28 @@ export class Helper {
   static handleResponse(
     response: AxiosResponse,
     type = 'global',
-    log: boolean = true
+    log: boolean = false,
+    mergeArray: boolean = false
   ) {
+    if (log) console.log(response.data);
+    if (
+      type == 'biller' &&
+      response.data.status == null &&
+      response.data.data == null
+    ) {
+      throw new Error('No data');
+    }
     if (
       response.data.status ||
       response.data.statuscode ||
       response.data.responseCode
     ) {
+      // console.log('jsonping the response');
       return jsonp(response.data);
     }
 
     function jsonp(data) {
-      if (log) console.log(data);
+      if (log) console.log({ data });
 
       const { statuscode, status: serverStatus, message, responseCode } = data;
       const status =
@@ -150,7 +161,20 @@ export class Helper {
         if (status.error) throw new Error(status.message);
       }
 
-      return data;
+      let response: any = { ...data };
+
+      if (data.data) {
+        if (isArray(data.data) && mergeArray) {
+          response = data.data;
+        } else {
+          response = {
+            ...response,
+            ...data.data,
+          };
+        }
+      }
+
+      return response;
     }
     return eval(response.data);
   }
@@ -233,6 +257,9 @@ export class Helper {
       case RemitaOperations.billers.payment_notification:
         preHash = `${rrr}${amountDebitted}${fundingSource}${debittedAccount}${paymentAuthCode}${secretKey}`;
         break;
+      case RemitaOperations.lender.fetch_salary_history:
+        preHash = `${apiKey}${requestId}${api_token}`;
+        break;
       default:
         preHash = '';
         break;
@@ -269,11 +296,13 @@ export class Helper {
       },
       lenderHeader: {
         API_KEY: apiKey,
+        API_HASH: hash,
+        API_DETAILS_HASH: hash,
         MERCHANT_ID: merchantId,
         REQUEST_ID: requestId,
-        AUTHORIZATION: '',
-        'X-API-PUBLIC-KEY': publicKey,
-        'X-API-SIGNATURE': signature,
+        AUTHORIZATION: `remitaConsumerKey=${apiKey},remitaConsumerToken=${hash}`,
+        // 'X-API-PUBLIC-KEY': publicKey,
+        // 'X-API-SIGNATURE': signature,
       },
     };
   }
@@ -312,7 +341,7 @@ export class Helper {
   static handleServerError(error) {
     if (!error.response) throw error;
     const data = error.response.data;
-    console.log({ serverError: data });
+    // console.log({ serverError: data });
     if (data.responseData) {
       const rd = JSON.parse(data.responseData);
       throw new Error(rd.message);

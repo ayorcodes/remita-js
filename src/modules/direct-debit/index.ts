@@ -133,7 +133,7 @@ export class DirectDebitService extends BaseService {
 
     const result = Helper.handleResponse(response);
     return {
-      ...result.data.data,
+      ...result.data,
       requestId: result.requestId,
       mandateId: result.mandateId,
       statuscode: result.statuscode,
@@ -180,7 +180,7 @@ export class DirectDebitService extends BaseService {
       }
     );
 
-    return Helper.handleResponse(response);
+    return Helper.handleResponse(response, 'global', false);
   };
 
   fetchDebitStatus = async (
@@ -220,6 +220,8 @@ export class DirectDebitService extends BaseService {
       }
     );
 
-    return Helper.handleResponse(response);
+    // console.log(response.data);
+
+    return Helper.handleResponse(response, key);
   };
 }

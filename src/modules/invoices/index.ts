@@ -66,15 +66,13 @@ export class InvoiceService extends BaseService {
   async status(
     dto: InvoiceStatusRRR | InvoiceStatusOrderId
   ): Promise<InvoiceStatusResponse> {
-    const { merchantId, invoiceHeaders, requestId } = this.process(
-      RemitaOperations.invoice.status,
-      dto
-    );
+    const { merchantId, invoiceHeaders, requestId, apiKey, hash } =
+      this.process(RemitaOperations.invoice.status, dto);
 
     const response = await this.request().get(
       dto.type == 'rrr'
-        ? `echannelsvc/${merchantId}/${dto.value}/${requestId}/status.reg`
-        : `echannelsvc/${merchantId}/${dto.value}/${requestId}/orderstatus.reg`,
+        ? `echannelsvc/${merchantId}/${dto.value}/${hash}/status.reg`
+        : `echannelsvc/${merchantId}/${dto.value}/${hash}/orderstatus.reg`,
       {
         headers: invoiceHeaders,
       }

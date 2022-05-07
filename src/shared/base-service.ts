@@ -15,9 +15,9 @@ export class BaseService {
     this.key = key;
     if (configuration.environment == 'dev') {
       this.config = testConfig[this.key];
-      console.log({ dev: this.config });
+      // console.log({ dev: this.config });
     } else {
-      console.log({ prod: this.config });
+      // console.log({ prod: this.config });
       this.config = configuration;
     }
   }

@@ -1,10 +1,24 @@
 import { RemitaOperations } from '../../constants/operations';
 import { BaseService } from '../../shared/base-service';
 import { Helper } from '../../shared/helpers';
-import { ISendPaymentNotification, IValidateRequest } from './billers.dto';
 import {
+  ICreateBillPaymentNotification,
+  IInitiateTransaction,
+  ISendPaymentNotification,
+  IValidateCustomer,
+  IValidateRequest,
+} from './billers.dto';
+import {
+  ICreateBillPaymentNotificationResponse,
+  IFetchBillCategoriesResponse,
+  IFetchBillerProductsResponse,
+  IFetchBillersByCategoryResponse,
   IFetchBillersResponse,
   IFetchServicesResponse,
+  IInitiateTransactionResponse,
+  ILookupTransactionResponse,
+  IQueryTransactionResponse,
+  IValidateCustomerResponse,
 } from './billers.responses';
 
 const key = 'biller';
@@ -14,77 +28,132 @@ export class BillerService extends BaseService {
     super(key);
   }
 
-  async fetchBillers(): Promise<IFetchBillersResponse> {
-    const { publicKeyHeader } = this.process();
-
-    const response = await this.request().get('bgatesvc/billing/billers', {
-      headers: publicKeyHeader,
-    });
-
-    return Helper.handleResponse(response, key).responseData;
-  }
-
-  async fetchServices(billerId: string): Promise<IFetchServicesResponse> {
-    const { publicKeyHeader } = this.process();
+  async fetchBillers(): Promise<IFetchBillersResponse[]> {
+    const { authHeader } = this.process();
 
     const response = await this.request().get(
-      `bgatesvc/billing/${billerId}/servicetypes`,
+      'bgatesvc/v3/billpayment/billers',
       {
-        headers: publicKeyHeader,
+        headers: authHeader,
       }
     );
 
-    return Helper.handleResponse(response, key).responseData;
+    return Helper.handleResponse(response, key, false, true);
   }
 
-  async fetchCustomFields(serviceTypeId: string) {
-    const { publicKeyHeader } = this.process();
+  async fetchBillCategories(): Promise<IFetchBillCategoriesResponse[]> {
+    const { authHeader } = this.process();
 
     const response = await this.request().get(
-      `bgatesvc/billing/servicetypes/${serviceTypeId}`,
+      'bgatesvc/v3/billpayment/categories',
       {
-        headers: publicKeyHeader,
+        headers: authHeader,
+      }
+    );
+
+    return Helper.handleResponse(response, key, false, true);
+  }
+
+  async fetchBillersByCategory(
+    categoryId: string
+  ): Promise<IFetchBillersByCategoryResponse[]> {
+    const { authHeader } = this.process();
+
+    const response = await this.request().get(
+      `bgatesvc/v3/billpayment/category/${categoryId}`,
+      {
+        headers: authHeader,
+      }
+    );
+
+    return Helper.handleResponse(response, key, false, true);
+  }
+
+  async fetchBillerProducts(
+    billerId: string
+  ): Promise<IFetchBillerProductsResponse> {
+    const { authHeader } = this.process();
+
+    const response = await this.request().get(
+      `bgatesvc/v3/billpayment/biller/${billerId}/products`,
+      {
+        headers: authHeader,
       }
     );
 
     return Helper.handleResponse(response, key);
   }
 
-  async validateRequest(dto: IValidateRequest) {
-    const { publicKeyHeader } = this.process(null, dto);
+  async validateCustomer(
+    dto: IValidateCustomer
+  ): Promise<IValidateCustomerResponse> {
+    const { authHeader } = this.process(null, dto);
 
     const response = await this.request().post(
-      `bgatesvc/billing/validate`,
-      { ...dto, billId: dto.serviceTypeId },
+      `bgatesvc/v3/billpayment/biller/customer/validation`,
+      dto,
       {
-        headers: publicKeyHeader,
+        headers: authHeader,
       }
     );
 
     return Helper.handleResponse(response, key);
   }
 
-  async generateRRR(dto: IValidateRequest) {
-    const { publicKeyHeader } = this.process(null, dto);
+  async initiateTransaction(
+    dto: IInitiateTransaction
+  ): Promise<IInitiateTransactionResponse> {
+    const { authHeader } = this.process(null, dto);
 
     const response = await this.request().post(
-      `bgatesvc/billing/generate`,
-      { ...dto, billId: dto.serviceTypeId },
+      `bgatesvc/v3/billpayment/biller/transaction/initiate`,
+      dto,
       {
-        headers: publicKeyHeader,
+        headers: authHeader,
+      }
+    );
+
+    return Helper.handleResponse(response, key, false);
+  }
+
+  async createPaymentNotification(
+    dto: ICreateBillPaymentNotification
+  ): Promise<ICreateBillPaymentNotificationResponse> {
+    const { authHeader } = this.process(null, dto);
+
+    const response = await this.request().post(
+      `bgatesvc/v3/billpayment/biller/transaction/paymentnotification`,
+      dto,
+      {
+        headers: authHeader,
+      }
+    );
+
+    return Helper.handleResponse(response, key, false);
+  }
+
+  async lookupTransaction(rrr: string): Promise<ILookupTransactionResponse> {
+    const { authHeader } = this.process();
+
+    const response = await this.request().get(
+      `bgatesvc/v3/billpayment/biller/transaction/lookup/${rrr}`,
+      {
+        headers: authHeader,
       }
     );
 
     return Helper.handleResponse(response, key);
   }
 
-  async fetchRRRDetails(rrr: string) {
-    const { publicKeyHeader } = this.process();
+  async queryTransaction(
+    billPaymenttransactionRef: string
+  ): Promise<IQueryTransactionResponse> {
+    const { authHeader } = this.process();
 
     const response = await this.request().get(
-      `bgatesvc/billing/lookup/${rrr}`,
+      `bgatesvc/v3/billpayment/biller/transaction/query/${billPaymenttransactionRef}`,
       {
-        headers: publicKeyHeader,
+        headers: authHeader,
       }
     );
 
@@ -92,7 +161,7 @@ export class BillerService extends BaseService {
   }
 
   async sendPaymentNotification(dto: ISendPaymentNotification) {
-    const { billerHeader, hash } = this.process(
+    const { authHeader, publicKeyHeader, hash } = this.process(
       RemitaOperations.billers.payment_notification,
       dto
     );
@@ -101,7 +170,8 @@ export class BillerService extends BaseService {
       `bgatesvc/billing/payment/notify`,
       { ...dto, hash },
       {
-        headers: billerHeader,
+        // headers: { ...authHeader, ...publicKeyHeader },
+        headers: authHeader,
       }
     );
 
@@ -109,12 +179,12 @@ export class BillerService extends BaseService {
   }
 
   async fetchPaymentStatus(transactionId: string) {
-    const { publicKeyHeader } = this.process();
+    const { authHeader } = this.process();
 
     const response = await this.request().get(
       `bgatesvc/billing/payment/status/${transactionId}`,
       {
-        headers: publicKeyHeader,
+        headers: authHeader,
       }
     );
 
@@ -131,3 +201,57 @@ export class BillerService extends BaseService {
     return Helper.handleResponse(response, key);
   }
 }
+
+// async fetchServices(billerId: string): Promise<IFetchServicesResponse> {
+//   const { authHeader } = this.process();
+
+//   const response = await this.request().get(
+//     `bgatesvc/billing/${billerId}/servicetypes`,
+//     {
+//       headers: authHeader,
+//     }
+//   );
+
+//   return Helper.handleResponse(response, key).responseData;
+// }
+
+// async fetchCustomFields(serviceTypeId: string) {
+//   const { authHeader } = this.process();
+
+//   const response = await this.request().get(
+//     `bgatesvc/billing/servicetypes/${serviceTypeId}`,
+//     {
+//       headers: authHeader,
+//     }
+//   );
+
+//   return Helper.handleResponse(response, key);
+// }
+
+// async validateRequest(dto: IValidateRequest) {
+//   const { authHeader } = this.process(null, dto);
+
+//   const response = await this.request().post(
+//     `bgatesvc/billing/validate`,
+//     { ...dto, billId: dto.serviceTypeId },
+//     {
+//       headers: authHeader,
+//     }
+//   );
+
+//   return Helper.handleResponse(response, key);
+// }
+
+// async generateRRR(dto: IValidateRequest) {
+//   const { authHeader } = this.process(null, dto);
+
+//   const response = await this.request().post(
+//     `bgatesvc/billing/generate`,
+//     { ...dto, billId: dto.serviceTypeId },
+//     {
+//       headers: authHeader,
+//     }
+//   );
+
+//   return Helper.handleResponse(response, key);
+// }

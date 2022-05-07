@@ -28,4 +28,7 @@ export const RemitaOperations = {
   billers: {
     payment_notification: 'payment_notification',
   },
+  lender: {
+    fetch_salary_history: 'fetch_salary_history',
+  },
 };

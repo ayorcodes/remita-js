@@ -6,6 +6,12 @@ export const statusCodes = {
       message: 'Successful',
       error: false,
     },
+    // {
+    //   type: 'SUCCESS',
+    //   code: '00',
+    //   message: 'Successful',
+    //   error: false,
+    // },
     {
       type: 'PROFILE_NOT_FOUND',
       code: '02',
@@ -703,6 +709,46 @@ export const statusCodes = {
       type: 'ERROR',
       code: 104,
       message: 'Service Type not Available for Biller',
+      error: true,
+    },
+    {
+      type: 'ERROR',
+      code: '04',
+      message: 'AUTHENTICATION_ERROR',
+      error: true,
+    },
+    {
+      type: 'ERROR',
+      code: '99',
+      message: 'Could not validate Customer, please try later',
+      error: true,
+    },
+    {
+      type: 'ERROR',
+      code: '94',
+      message: 'Duplicate transaction',
+      error: true,
+    },
+    {
+      type: 'ERROR',
+      code: '66',
+      message: 'Invalid RRR',
+      error: true,
+    },
+  ],
+  lender: [
+    {
+      type: 'ERROR',
+      code: 41,
+      message: 'Invalid Authorisation ID',
+      error: true,
+    },
+  ],
+  directDebit: [
+    {
+      type: 'PROFILE_NOT_FOUND',
+      code: '02',
+      message: 'Invalid Transaction',
       error: true,
     },
   ],

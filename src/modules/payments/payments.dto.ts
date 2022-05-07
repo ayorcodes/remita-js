@@ -4,7 +4,7 @@ export interface IAccountLookup {
 }
 
 export interface ICreateSinglePayment {
-  type: 'single';
+  // type: 'single';
   amount: number;
   transactionRef: string;
   transactionDescription: string;
@@ -23,7 +23,7 @@ export interface ICreateSinglePayment {
 }
 
 export interface ICreateBulkPayment {
-  type: 'bulk';
+  // type: 'bulk';
   batchRef: string;
   totalAmount: number;
   sourceAccount: string;
@@ -47,11 +47,11 @@ export interface Transaction {
 }
 
 export interface IFetchSinglePayment {
-  type: 'single';
+  // type: 'single';
   transRef: string;
 }
 
 export interface IFetchBulkPayment {
-  type: 'batch';
+  // type: 'batch';
   batchRef: string;
 }
