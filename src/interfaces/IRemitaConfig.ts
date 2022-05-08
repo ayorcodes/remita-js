@@ -8,6 +8,7 @@ export interface IRemitaLiveConfig {
   serviceTypeId: string;
   apiKey: string;
   api_token: string;
+  publicKey?: string;
   auth?: {
     username: string;
     password: string;
@@ -20,6 +21,7 @@ export interface IRemitaConfig {
   serviceTypeId: string;
   apiKey: string;
   api_token: string;
+  publicKey?: string;
   auth?: {
     username: string;
     password: string;
