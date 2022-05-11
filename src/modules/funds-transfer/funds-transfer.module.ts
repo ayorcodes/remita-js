@@ -1,6 +1,12 @@
+import { AppModuleKeys } from '../../constants/module.keys';
 import { RemitaOperations } from '../../constants/operations';
 import { BaseService } from '../../shared/base-service';
 import { Helper } from '../../shared/helpers';
+import {
+  IAccountLookup,
+  ICreateBulkPayment,
+  ICreateSinglePayment,
+} from './funds-transfer.dto';
 import {
   IAccountLookupResponse,
   ICreateBulkPaymentResponse,
@@ -8,18 +14,10 @@ import {
   IFetchActiveBanksResponse,
   IFetchBulkPaymentResponse,
   IFetchSinglePaymentResponse,
-} from './payment.responses';
-import {
-  IAccountLookup,
-  ICreateBulkPayment,
-  ICreateSinglePayment,
-  IFetchBulkPayment,
-  IFetchSinglePayment,
-} from './payments.dto';
+} from './funds-transfer.response';
 
-let key = 'payment';
-
-export class PaymentService extends BaseService {
+const key = AppModuleKeys.FUNDS_TRANSFER_MODULE;
+export class FundsTransferService extends BaseService {
   constructor() {
     super(key);
   }
@@ -38,10 +36,10 @@ export class PaymentService extends BaseService {
       }
     );
 
-    return Helper.handleResponse(response);
+    return Helper.handleResponse(response, key);
   }
 
-  async createSingle(
+  async createSinglePayment(
     dto: ICreateSinglePayment
   ): Promise<ICreateSinglePaymentResponse> {
     try {
@@ -55,35 +53,14 @@ export class PaymentService extends BaseService {
         }
       );
 
-      return Helper.handleResponse(response);
+      return Helper.handleResponse(response, key);
     } catch (error) {
       Helper.handleServerError(error);
       return null;
     }
   }
 
-  async createBulk(
-    dto: ICreateBulkPayment
-  ): Promise<ICreateBulkPaymentResponse> {
-    try {
-      const { authHeader } = this.process(null, dto);
-
-      const response = await this.request().post(
-        'rpgsvc/v3/rpg/bulk/payment',
-        dto,
-        {
-          headers: authHeader,
-        }
-      );
-
-      return Helper.handleResponse(response);
-    } catch (error) {
-      Helper.handleServerError(error);
-      return null;
-    }
-  }
-
-  async fetchSinglePaymentStatus(
+  async getSinglePaymentTransactionStatus(
     // dto: IFetchSinglePayment
     transRef: string
   ): Promise<IFetchSinglePaymentResponse> {
@@ -98,14 +75,35 @@ export class PaymentService extends BaseService {
         }
       );
 
-      return Helper.handleResponse(response);
+      return Helper.handleResponse(response, key);
     } catch (error) {
       Helper.handleServerError(error);
       return null;
     }
   }
 
-  async fetchBulkPaymentStatus(
+  async createBulkPayment(
+    dto: ICreateBulkPayment
+  ): Promise<ICreateBulkPaymentResponse> {
+    try {
+      const { authHeader } = this.process(null, dto);
+
+      const response = await this.request().post(
+        'rpgsvc/v3/rpg/bulk/payment',
+        dto,
+        {
+          headers: authHeader,
+        }
+      );
+
+      return Helper.handleResponse(response, key);
+    } catch (error) {
+      Helper.handleServerError(error);
+      return null;
+    }
+  }
+
+  async getBulkPaymentTransactionStatus(
     // dto: IFetchBulkPayment
     batchRef: string
   ): Promise<IFetchBulkPaymentResponse> {
@@ -120,14 +118,14 @@ export class PaymentService extends BaseService {
         }
       );
 
-      return Helper.handleResponse(response);
+      return Helper.handleResponse(response, key);
     } catch (error) {
       Helper.handleServerError(error);
       return null;
     }
   }
 
-  async fetchActiveBanks(): Promise<IFetchActiveBanksResponse> {
+  async getActiveBanks(): Promise<IFetchActiveBanksResponse> {
     try {
       const { headers } = this.process(
         RemitaOperations.payments.get_active_banks,
@@ -142,7 +140,7 @@ export class PaymentService extends BaseService {
         }
       );
 
-      return Helper.handleResponse(response);
+      return Helper.handleResponse(response, key);
     } catch (error) {
       Helper.handleServerError(error);
       return null;

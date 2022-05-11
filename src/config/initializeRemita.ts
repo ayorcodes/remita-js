@@ -26,6 +26,7 @@ export const initializeRemita = async (
       environment: 'dev',
       auth: {
         username: 'UHSU6ZIMAVXNZHXW',
+        // password: 'K8JE73OFE508GMOW9VWLX5SLH5QG1PF3',
         password: 'K8JE73OFE508GMOW9VWLX5SLH5QG1PF2',
       },
     });
@@ -49,5 +50,3 @@ export const initializeRemita = async (
 
   return configuration;
 };
-
-// exp initializeRemita;

@@ -1,4 +1,4 @@
-import { IBaseResponse } from '../../shared/base-response';
+import { IBaseResponse } from '../../../shared/base-response';
 
 export interface ICreateInvoiceResponse extends IBaseResponse {
   RRR: string;
