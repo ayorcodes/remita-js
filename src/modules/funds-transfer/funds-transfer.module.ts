@@ -54,12 +54,13 @@ export class FundsTransferService extends BaseService {
   ): Promise<ICreateSinglePaymentResponse | ICreateBulkPaymentResponse> {
     try {
       const { authHeader } = this.process(null, dto);
+      const indto = dto as any;
 
       const response = await this.request().post(
-        dto.type == 'single'
+        indto.type == 'single'
           ? 'rpgsvc/v3/rpg/single/payment'
           : 'rpgsvc/v3/rpg/bulk/payment',
-        dto.type == 'single'
+        indto.type == 'single'
           ? { transactionRef: Math.floor(Math.random() * 1101233), ...dto }
           : { batchRef: Math.floor(Math.random() * 1101233), ...dto },
         {
@@ -86,18 +87,19 @@ export class FundsTransferService extends BaseService {
     dto: IFetchSinglePayment | IFetchBulkPayment
   ): Promise<IFetchSinglePaymentResponse | IFetchBulkPaymentResponse> {
     const { type } = dto;
+    const indto = dto as any;
     try {
       const { authHeader } = this.process(
         null,
         type == 'single'
-          ? { transRef: dto.transRef }
-          : { batchRef: dto.batchRef }
+          ? { transRef: indto.transRef }
+          : { batchRef: indto.batchRef }
       );
 
       const response = await this.request().get(
         type == 'single'
-          ? `rpgsvc/v3/rpg/single/payment/status/${dto.transRef}`
-          : `rpgsvc/v3/rpg/bulk/payment/status/${dto.batchRef}`,
+          ? `rpgsvc/v3/rpg/single/payment/status/${indto.transRef}`
+          : `rpgsvc/v3/rpg/bulk/payment/status/${indto.batchRef}`,
         {
           // data: dto,
           headers: authHeader,
