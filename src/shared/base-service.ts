@@ -14,6 +14,7 @@ export class BaseService {
   constructor(key: string) {
     this.key = key;
     if (configuration.environment == 'dev') {
+      // console.log(testConfig, this.key);
       this.config = testConfig[this.key];
       // console.log({ dev: this.config });
     } else {
@@ -34,6 +35,7 @@ export class BaseService {
   }
 
   protected process(operation: string = '', opts = {}) {
+    // console.log({ key: this.key, config: this.config });
     return Helper.process(operation, opts, this.config);
   }
 }

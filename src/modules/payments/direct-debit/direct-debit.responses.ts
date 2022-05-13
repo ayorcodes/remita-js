@@ -1,4 +1,4 @@
-import { IBaseResponse } from '../../shared/base-response';
+import { IBaseResponse } from '../../../shared/base-response';
 
 export interface ICreateMandateResponse extends IBaseResponse {
   requestId: string;

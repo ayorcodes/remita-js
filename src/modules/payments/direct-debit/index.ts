@@ -1,6 +1,7 @@
-import { RemitaOperations } from '../../constants/operations';
-import { BaseService } from '../../shared/base-service';
-import { Helper } from '../../shared/helpers';
+import { AppModuleKeys } from '../../../constants/module.keys';
+import { RemitaOperations } from '../../../constants/operations';
+import { BaseService } from '../../../shared/base-service';
+import { Helper } from '../../../shared/helpers';
 
 import {
   ICreateMandate,
@@ -25,9 +26,7 @@ import {
   IValidateMandateOTPResponse,
 } from './direct-debit.responses';
 
-// export const mandateStatus = () => {};
-
-let key = 'directDebit';
+let key = 'referenceDataModule';
 
 export class DirectDebitService extends BaseService {
   constructor() {
@@ -53,7 +52,7 @@ export class DirectDebitService extends BaseService {
       }
     );
 
-    return Helper.handleResponse(response);
+    return Helper.handleResponse(response, AppModuleKeys.PAYMENTS_MODULE);
   };
 
   stopMandate = async (dto: IStopMandate): Promise<IStopMandateResponse> => {
@@ -72,7 +71,7 @@ export class DirectDebitService extends BaseService {
       }
     );
 
-    return Helper.handleResponse(response);
+    return Helper.handleResponse(response, AppModuleKeys.PAYMENTS_MODULE);
   };
 
   requestMandateOTP = async (
@@ -92,7 +91,7 @@ export class DirectDebitService extends BaseService {
       { headers }
     );
 
-    return Helper.handleResponse(response);
+    return Helper.handleResponse(response, AppModuleKeys.PAYMENTS_MODULE);
   };
 
   validateMandateOTP = async (
@@ -111,7 +110,7 @@ export class DirectDebitService extends BaseService {
       }
     );
 
-    return Helper.handleResponse(response);
+    return Helper.handleResponse(response, AppModuleKeys.PAYMENTS_MODULE);
   };
 
   mandatePaymentHistory = async (
@@ -131,7 +130,10 @@ export class DirectDebitService extends BaseService {
       }
     );
 
-    const result = Helper.handleResponse(response);
+    const result = Helper.handleResponse(
+      response,
+      AppModuleKeys.PAYMENTS_MODULE
+    );
     return {
       ...result.data,
       requestId: result.requestId,
@@ -158,7 +160,7 @@ export class DirectDebitService extends BaseService {
       }
     );
 
-    return Helper.handleResponse(response);
+    return Helper.handleResponse(response, AppModuleKeys.PAYMENTS_MODULE);
   };
 
   sendDebitInstruction = async (
@@ -200,7 +202,7 @@ export class DirectDebitService extends BaseService {
       }
     );
 
-    return Helper.handleResponse(response);
+    return Helper.handleResponse(response, AppModuleKeys.PAYMENTS_MODULE);
   };
 
   cancelDebitInstruction = async (
@@ -222,6 +224,10 @@ export class DirectDebitService extends BaseService {
 
     // console.log(response.data);
 
-    return Helper.handleResponse(response, key);
+    return Helper.handleResponse(
+      response,
+      AppModuleKeys.PAYMENTS_MODULE,
+      false
+    );
   };
 }
