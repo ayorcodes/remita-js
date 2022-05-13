@@ -5,6 +5,7 @@ export interface IAccountLookupResponse {
 }
 
 export interface ICreateSinglePaymentResponse {
+  type: 'single';
   amount: number;
   transactionRef: string;
   transactionDescription: string;
@@ -39,6 +40,7 @@ export interface IFetchSinglePaymentResponse {
 }
 
 export interface ICreateBulkPaymentResponse {
+  type: 'bulk';
   batchRef: string;
   totalAmount: number;
   authorizationId: string;

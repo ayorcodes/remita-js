@@ -227,6 +227,7 @@ export class Helper {
   }
 
   static handleServerError(error) {
+    console.log(error.response);
     if (!error.response) throw error;
     const data = error.response.data;
     // console.log({ serverError: data });

@@ -6,6 +6,8 @@ import {
   IAccountLookup,
   ICreateBulkPayment,
   ICreateSinglePayment,
+  IFetchBulkPayment,
+  IFetchSinglePayment,
 } from './funds-transfer.dto';
 import {
   IAccountLookupResponse,
@@ -39,58 +41,27 @@ export class FundsTransferService extends BaseService {
     return Helper.handleResponse(response, key);
   }
 
-  async createSinglePayment(
+  async createPayment(
     dto: ICreateSinglePayment
-  ): Promise<ICreateSinglePaymentResponse> {
-    try {
-      const { authHeader } = this.process(null, dto);
+  ): Promise<ICreateSinglePaymentResponse>;
 
-      const response = await this.request().post(
-        'rpgsvc/v3/rpg/single/payment',
-        dto,
-        {
-          headers: authHeader,
-        }
-      );
-
-      return Helper.handleResponse(response, key);
-    } catch (error) {
-      Helper.handleServerError(error);
-      return null;
-    }
-  }
-
-  async getSinglePaymentTransactionStatus(
-    // dto: IFetchSinglePayment
-    transRef: string
-  ): Promise<IFetchSinglePaymentResponse> {
-    try {
-      const { authHeader } = this.process(null, { transRef });
-
-      const response = await this.request().get(
-        `rpgsvc/v3/rpg/single/payment/status/${transRef}`,
-        {
-          // data: dto,
-          headers: authHeader,
-        }
-      );
-
-      return Helper.handleResponse(response, key);
-    } catch (error) {
-      Helper.handleServerError(error);
-      return null;
-    }
-  }
-
-  async createBulkPayment(
+  async createPayment(
     dto: ICreateBulkPayment
-  ): Promise<ICreateBulkPaymentResponse> {
+  ): Promise<ICreateBulkPaymentResponse>;
+
+  async createPayment(
+    dto: ICreateSinglePayment | ICreateBulkPayment
+  ): Promise<ICreateSinglePaymentResponse | ICreateBulkPaymentResponse> {
     try {
       const { authHeader } = this.process(null, dto);
 
       const response = await this.request().post(
-        'rpgsvc/v3/rpg/bulk/payment',
-        dto,
+        dto.type == 'single'
+          ? 'rpgsvc/v3/rpg/single/payment'
+          : 'rpgsvc/v3/rpg/bulk/payment',
+        dto.type == 'single'
+          ? { transactionRef: Math.floor(Math.random() * 1101233), ...dto }
+          : { batchRef: Math.floor(Math.random() * 1101233), ...dto },
         {
           headers: authHeader,
         }
@@ -103,15 +74,30 @@ export class FundsTransferService extends BaseService {
     }
   }
 
-  async getBulkPaymentTransactionStatus(
-    // dto: IFetchBulkPayment
-    batchRef: string
-  ): Promise<IFetchBulkPaymentResponse> {
+  async getPaymentStatus(
+    dto: IFetchSinglePayment
+  ): Promise<IFetchSinglePaymentResponse>;
+
+  async getPaymentStatus(
+    dto: IFetchBulkPayment
+  ): Promise<IFetchBulkPaymentResponse>;
+
+  async getPaymentStatus(
+    dto: IFetchSinglePayment | IFetchBulkPayment
+  ): Promise<IFetchSinglePaymentResponse | IFetchBulkPaymentResponse> {
+    const { type } = dto;
     try {
-      const { authHeader } = this.process(null, { batchRef });
+      const { authHeader } = this.process(
+        null,
+        type == 'single'
+          ? { transRef: dto.transRef }
+          : { batchRef: dto.batchRef }
+      );
 
       const response = await this.request().get(
-        `rpgsvc/v3/rpg/bulk/payment/status/${batchRef}`,
+        type == 'single'
+          ? `rpgsvc/v3/rpg/single/payment/status/${dto.transRef}`
+          : `rpgsvc/v3/rpg/bulk/payment/status/${dto.batchRef}`,
         {
           // data: dto,
           headers: authHeader,

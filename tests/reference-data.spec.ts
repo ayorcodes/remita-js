@@ -3,7 +3,8 @@ jest.setTimeout(10000);
 
 let referenceDataService: ReferenceDataService;
 
-let authorisationCode = '334523457';
+// let authorisationCode = '334523457';
+let authorisationCode = Math.floor(Math.random() * 1101233).toString();
 let mandateReference = '';
 let customerId = '456783897';
 
@@ -20,18 +21,32 @@ describe('Reference Data Tests', () => {
     expect(2).toBeLessThanOrEqual(2);
   });
 
-  // it('should fetch salary history', async () => {
-  //   const response = await referenceDataService.getSalaryHistory({
-  //     authorisationCode,
-  //     firstName: 'Teresa',
-  //     lastName: 'Stoker',
-  //     middleName: 'R',
-  //     accountNumber: '5012284010',
-  //     bankCode: '023',
-  //     bvn: '22222222223',
-  //     authorisationChannel: 'USSD',
-  //   });
-  // });
+  it('should fetch salary history by phoneNumber', async () => {
+    const response = await referenceDataService.getSalaryHistory({
+      type: 'phoneNumber',
+      authorisationCode: Math.floor(Math.random() * 1101233).toString(),
+      phoneNumber: '07038684773',
+      authorisationChannel: 'USSD',
+    });
+
+    expect(response.accountNumber).toBeDefined();
+    expect(response.salaryPaymentDetails.length).toBeGreaterThan(5);
+    expect(response.loanHistoryDetails.length).toBeGreaterThan(5);
+  });
+
+  it('should fetch salary history by accountNumber', async () => {
+    const response = await referenceDataService.getSalaryHistory({
+      type: 'accountNumber',
+      authorisationCode: Math.floor(Math.random() * 1101233).toString(),
+      accountNumber: '1234657893',
+      bankCode: '214',
+      authorisationChannel: 'USSD',
+    });
+
+    expect(response.accountNumber).toBeDefined();
+    expect(response.salaryPaymentDetails.length).toBeGreaterThan(5);
+    expect(response.loanHistoryDetails.length).toBeGreaterThan(5);
+  });
 
   // it('should fetch user by NIN', async () => {
   //   const response = await referenceDataService.getUserInfoByNIN({

@@ -2,7 +2,11 @@ import { AppModuleKeys } from '../../constants/module.keys';
 import { RemitaOperations } from '../../constants/operations';
 import { BaseService } from '../../shared/base-service';
 import { Helper } from '../../shared/helpers';
-import { IFetchSalaryHistory, IFetchUserByNIN } from './reference-data.dto';
+import {
+  IFetchSalaryHistoryByAccountNumber,
+  IFetchSalaryHistoryByPhoneNumber,
+  IFetchUserByNIN,
+} from './reference-data.dto';
 import {
   IFetchSalaryHistoryResponse,
   IFetchUserByNINResponse,
@@ -16,7 +20,7 @@ export class ReferenceDataService extends BaseService {
   }
 
   async getSalaryHistory(
-    dto: IFetchSalaryHistory
+    dto: IFetchSalaryHistoryByAccountNumber | IFetchSalaryHistoryByPhoneNumber
   ): Promise<IFetchSalaryHistoryResponse> {
     const { lenderHeader } = this.process(
       RemitaOperations.lender.fetch_salary_history,
@@ -24,7 +28,7 @@ export class ReferenceDataService extends BaseService {
     );
 
     const response = await this.request().post(
-      `loansvc/data/api/v2/payday/salary/history/provideCustomerDetails`,
+      `loansvc/data/api/v2/payday/salary/history/ph`,
       dto,
       { headers: lenderHeader }
     );

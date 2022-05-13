@@ -1,10 +1,16 @@
 import * as faker from 'faker';
 import { FundsTransferService, initializeRemita } from '../src';
+import {
+  ICreateBulkPaymentResponse,
+  ICreateSinglePaymentResponse,
+} from '../src/modules/funds-transfer/funds-transfer.response';
 jest.setTimeout(10000);
 
 let fundsTransferService: FundsTransferService;
 let transactionRef = '';
 let batchRef = '';
+
+// Math.floor(Math.random() * 1101233).toString()
 
 describe('Funds Transfer Tests', () => {
   beforeAll(async () => {
@@ -25,9 +31,11 @@ describe('Funds Transfer Tests', () => {
   });
 
   it('should create a single transaction', async () => {
-    const response = await fundsTransferService.createSinglePayment({
+    const response = await fundsTransferService.createPayment({
+      type: 'single',
       amount: 1000,
-      transactionRef: faker.datatype.uuid().split('-').join(''),
+      // transactionRef: faker.datatype.uuid().split('-').join(''),
+      // transactionRef: Math.floor(Math.random() * 1101233),
       transactionDescription: 'Payment for services',
       channel: 'WEB',
       currency: 'NGN',
@@ -42,21 +50,22 @@ describe('Funds Transfer Tests', () => {
       originalBankCode: '058',
       customReference: '',
     });
+
     expect(response.transactionRef).toBeDefined();
     transactionRef = response.transactionRef;
   });
 
   it('should fetch single transaction status by RRR', async () => {
-    const response =
-      await fundsTransferService.getSinglePaymentTransactionStatus(
-        transactionRef
-      );
+    const response = await fundsTransferService.getPaymentStatus({
+      type: 'single',
+      transRef: transactionRef,
+    });
     expect(response.authorizationId).toBeDefined();
   });
 
   it('should create a bulk transaction', async () => {
-    const response = await fundsTransferService.createBulkPayment({
-      batchRef: faker.datatype.uuid().split('-').join(''),
+    const response = await fundsTransferService.createPayment({
+      type: 'bulk',
       totalAmount: 4500,
       sourceAccount: '8909090989',
       sourceAccountName: 'ABC',
@@ -93,14 +102,21 @@ describe('Funds Transfer Tests', () => {
         },
       ],
     });
+
     expect(response.batchRef).toBeDefined();
     batchRef = response.batchRef;
   });
 
   it('should fetch bulk transaction status by RRR', async () => {
-    const response = await fundsTransferService.getBulkPaymentTransactionStatus(
-      batchRef
-    );
+    const response = await fundsTransferService.getPaymentStatus({
+      type: 'bulk',
+      batchRef,
+    });
     expect(response.authorizationId).toBeDefined();
+  });
+
+  it('should fetch active banks', async () => {
+    const response = await fundsTransferService.getActiveBanks();
+    expect(response.banks.length).toBeGreaterThan(5);
   });
 });

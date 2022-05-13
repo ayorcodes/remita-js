@@ -1,19 +1,19 @@
-export interface IFetchSalaryHistory {
+export interface IFetchSalaryHistoryByPhoneNumber {
+  type: 'phoneNumber';
   authorisationCode: string;
-  firstName: string;
-  lastName: string;
-  middleName: string;
+  phoneNumber: string;
+  authorisationChannel: string;
+}
+
+export interface IFetchSalaryHistoryByAccountNumber {
+  type: 'accountNumber';
+  authorisationCode: string;
   accountNumber: string;
   bankCode: string;
-  bvn: string;
   authorisationChannel: string;
 }
 
 export interface IFetchUserByNIN {
-  // refId: string;
-  // authorisationCode: string;
-  // authorisationChannel: string;
-  // customFields: CustomField[];
   nin: string;
   authorisationCode: string;
   authorisationChannel: string;

@@ -12,6 +12,19 @@ describe('Inflight Collections Tests', () => {
       environment: 'dev',
     });
 
+    // await initializeRemita({
+    //   environment: 'production',
+    //   apiKey: process.env.REMITA_API_KEY,
+    //   api_token: process.env.REMITA_API_TOKEN,
+    //   merchantId: process.env.REMITA_MERCHANT_ID,
+    //   serviceTypeId: process.env.REMITA_SERVICE_TYPE_ID,
+    //   publicKey: process.env.REMITA_PUBLIC_KEY,
+    //   auth: {
+    //     password: process.env.REMITA_PASSWORD,
+    //     username: process.env.REMITA_USERNAME
+    //   }
+    // });
+
     inflightCollectionsService = new InflightCollectionsService();
   });
 
