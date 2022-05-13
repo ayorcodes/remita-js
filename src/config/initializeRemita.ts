@@ -42,7 +42,7 @@ export const initializeRemita = async (
     },
   });
 
-  if (configuration.auth.username) {
+  if (configuration.auth) {
     const response = await api.post('uaasvc/uaa/token', configuration.auth);
     const result = Helper.handleResponse(response, 'global', false);
     setToken(result.data[0].accessToken);
