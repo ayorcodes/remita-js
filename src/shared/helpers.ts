@@ -223,7 +223,13 @@ export class Helper {
 
       return response;
     }
-    return eval(response.data);
+
+    return jsonp(this.unwrap(response.data));
+  }
+
+  private static unwrap(jsonpdata) {
+    const res = jsonpdata.slice(7, jsonpdata.length - 1);
+    return JSON.parse(res);
   }
 
   static handleServerError(error) {
