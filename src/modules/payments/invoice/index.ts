@@ -1,7 +1,8 @@
-import { RemitaOperations } from '../../constants/operations';
-import { IBaseResponse } from '../../shared/base-response';
-import { BaseService } from '../../shared/base-service';
-import { Helper } from '../../shared/helpers';
+import { AppModuleKeys } from '../../../constants/module.keys';
+import { RemitaOperations } from '../../../constants/operations';
+import { IBaseResponse } from '../../../shared/base-response';
+import { BaseService } from '../../../shared/base-service';
+import { Helper } from '../../../shared/helpers';
 import {
   ICreateInvoiceResponse,
   InvoiceStatusResponse,
@@ -15,7 +16,7 @@ import {
   InvoiceStatusRRR,
 } from './invoices.dto';
 
-const key = 'invoice';
+const key = AppModuleKeys.PAYMENTS_MODULE;
 
 export class InvoiceService extends BaseService {
   constructor() {
@@ -45,7 +46,7 @@ export class InvoiceService extends BaseService {
 
     response.data.hash = hash;
 
-    return Helper.handleResponse(response);
+    return Helper.handleResponse(response, AppModuleKeys.PAYMENTS_MODULE);
   }
 
   async cancel(rrr: string): Promise<IBaseResponse> {
@@ -62,7 +63,7 @@ export class InvoiceService extends BaseService {
       }
     );
 
-    return Helper.handleResponse(response);
+    return Helper.handleResponse(response, AppModuleKeys.PAYMENTS_MODULE);
   }
 
   async status(
@@ -80,6 +81,6 @@ export class InvoiceService extends BaseService {
       }
     );
 
-    return Helper.handleResponse(response);
+    return Helper.handleResponse(response, AppModuleKeys.PAYMENTS_MODULE);
   }
 }

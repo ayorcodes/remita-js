@@ -26,6 +26,7 @@ export const initializeRemita = async (
       environment: 'dev',
       auth: {
         username: 'UHSU6ZIMAVXNZHXW',
+        // password: 'K8JE73OFE508GMOW9VWLX5SLH5QG1PF3',
         password: 'K8JE73OFE508GMOW9VWLX5SLH5QG1PF2',
       },
     });
@@ -41,7 +42,7 @@ export const initializeRemita = async (
     },
   });
 
-  if (configuration.auth.username) {
+  if (configuration.auth) {
     const response = await api.post('uaasvc/uaa/token', configuration.auth);
     const result = Helper.handleResponse(response, 'global', false);
     setToken(result.data[0].accessToken);
@@ -49,5 +50,3 @@ export const initializeRemita = async (
 
   return configuration;
 };
-
-// exp initializeRemita;

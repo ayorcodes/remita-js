@@ -18,33 +18,43 @@ export const handleApiUrl = () => {
 };
 
 export let testConfig = {
-  invoice: {
+  paymentsModule: {
     merchantId: '2547916',
     serviceTypeId: '4430731',
     apiKey: '1946',
   },
-  directDebit: {
-    merchantId: '27768931',
-    serviceTypeId: '35126630',
-    apiKey: 'Q1dHREVNTzEyMzR8Q1dHREVNTw==',
-    api_token:
-      'SGlQekNzMEdMbjhlRUZsUzJCWk5saDB6SU14Zk15djR4WmkxaUpDTll6bGIxRCs4UkVvaGhnPT0=',
-  },
-  payment: {
+  // directDebit: {
+  //   merchantId: '27768931',
+  //   serviceTypeId: '35126630',
+  //   apiKey: 'Q1dHREVNTzEyMzR8Q1dHREVNTw==',
+  //   api_token:
+  //     'SGlQekNzMEdMbjhlRUZsUzJCWk5saDB6SU14Zk15djR4WmkxaUpDTll6bGIxRCs4UkVvaGhnPT0=',
+  // },
+  fundsTransferModule: {
     merchantId: 'DEMOMDA1234',
     apiKey: 'REVNT01EQTEyMzR8REVNT01EQQ',
     api_token:
       'bmR1ZFFFWEx5R2c2NmhnMEk5a25WenJaZWZwbHFFYldKOGY0bHlGZnBZQ1N5WEpXU2Y1dGt3PT0=',
   },
-  biller: {
-    publicKey:
-      'U0hFTEx8NDA4MTcyOTh8Y2FjZjNhNDY5NzU5ZjA4OWM1ZGVhN2E2YTRkMzEyNTczMjljYTU1OTJjNzg1NWQyYjNiMTM4OGM5OTNmZGFjYWFjODkwMDFhMWFkZjYwYzJiZDQyZjZhMjkzNTFiNDgyMWI4MWJlMzhmOWU3ZjA1YzI5ZWM0NTViZGQzNGMzOGM=',
-  },
-  lender: {
+  referenceDataModule: {
     merchantId: '27768931',
+    serviceTypeId: '35126630',
     apiKey: 'Q1dHREVNTzEyMzR8Q1dHREVNTw==',
     api_token:
       'SGlQekNzMEdMbjhlRUZsUzJCWk5saDB6SU14Zk15djR4WmkxaUpDTll6bGIxRCs4UkVvaGhnPT0=',
+    publicKey:
+      'U0hFTEx8NDA4MTcyOTh8Y2FjZjNhNDY5NzU5ZjA4OWM1ZGVhN2E2YTRkMzEyNTczMjljYTU1OTJjNzg1NWQyYjNiMTM4OGM5OTNmZGFjYWFjODkwMDFhMWFkZjYwYzJiZDQyZjZhMjkzNTFiNDgyMWI4MWJlMzhmOWU3ZjA1YzI5ZWM0NTViZGQzNGMzOGM=',
+  },
+  inflightCollectionsModule: {
+    merchantId: '27768931',
+    serviceTypeId: '35126630',
+    apiKey: 'Q1dHREVNTzEyMzR8Q1dHREVNTw==',
+    api_token:
+      'SGlQekNzMEdMbjhlRUZsUzJCWk5saDB6SU14Zk15djR4WmkxaUpDTll6bGIxRCs4UkVvaGhnPT0=',
+    publicKey:
+      'U0hFTEx8NDA4MTcyOTh8Y2FjZjNhNDY5NzU5ZjA4OWM1ZGVhN2E2YTRkMzEyNTczMjljYTU1OTJjNzg1NWQyYjNiMTM4OGM5OTNmZGFjYWFjODkwMDFhMWFkZjYwYzJiZDQyZjZhMjkzNTFiNDgyMWI4MWJlMzhmOWU3ZjA1YzI5ZWM0NTViZGQzNGMzOGM=',
+  },
+  billerAggregationModule: {
     publicKey:
       'U0hFTEx8NDA4MTcyOTh8Y2FjZjNhNDY5NzU5ZjA4OWM1ZGVhN2E2YTRkMzEyNTczMjljYTU1OTJjNzg1NWQyYjNiMTM4OGM5OTNmZGFjYWFjODkwMDFhMWFkZjYwYzJiZDQyZjZhMjkzNTFiNDgyMWI4MWJlMzhmOWU3ZjA1YzI5ZWM0NTViZGQzNGMzOGM=',
   },
