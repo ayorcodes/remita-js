@@ -21,32 +21,32 @@ describe('Reference Data Tests', () => {
     expect(2).toBeLessThanOrEqual(2);
   });
 
-  it('should fetch salary history by phoneNumber', async () => {
-    const response = await referenceDataService.getSalaryHistory({
-      type: 'phoneNumber',
-      authorisationCode: Math.floor(Math.random() * 1101233).toString(),
-      phoneNumber: '07038684773',
-      authorisationChannel: 'USSD',
-    });
+  // it('should fetch salary history by phoneNumber', async () => {
+  //   const response = await referenceDataService.getSalaryHistory({
+  //     type: 'phoneNumber',
+  //     authorisationCode: Math.floor(Math.random() * 1101233).toString(),
+  //     phoneNumber: '07038684773',
+  //     authorisationChannel: 'USSD',
+  //   });
 
-    expect(response.accountNumber).toBeDefined();
-    expect(response.salaryPaymentDetails.length).toBeGreaterThan(5);
-    expect(response.loanHistoryDetails.length).toBeGreaterThan(5);
-  });
+  //   expect(response.accountNumber).toBeDefined();
+  //   expect(response.salaryPaymentDetails.length).toBeGreaterThan(5);
+  //   expect(response.loanHistoryDetails.length).toBeGreaterThan(5);
+  // });
 
-  it('should fetch salary history by accountNumber', async () => {
-    const response = await referenceDataService.getSalaryHistory({
-      type: 'accountNumber',
-      authorisationCode: Math.floor(Math.random() * 1101233).toString(),
-      accountNumber: '1234657893',
-      bankCode: '214',
-      authorisationChannel: 'USSD',
-    });
+  // it('should fetch salary history by accountNumber', async () => {
+  //   const response = await referenceDataService.getSalaryHistory({
+  //     type: 'accountNumber',
+  //     authorisationCode: Math.floor(Math.random() * 1101233).toString(),
+  //     accountNumber: '1234657893',
+  //     bankCode: '214',
+  //     authorisationChannel: 'USSD',
+  //   });
 
-    expect(response.accountNumber).toBeDefined();
-    expect(response.salaryPaymentDetails.length).toBeGreaterThan(5);
-    expect(response.loanHistoryDetails.length).toBeGreaterThan(5);
-  });
+  //   expect(response.accountNumber).toBeDefined();
+  //   expect(response.salaryPaymentDetails.length).toBeGreaterThan(5);
+  //   expect(response.loanHistoryDetails.length).toBeGreaterThan(5);
+  // });
 
   // it('should fetch user by NIN', async () => {
   //   const response = await referenceDataService.getUserInfoByNIN({

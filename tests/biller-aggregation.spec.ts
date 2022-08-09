@@ -48,12 +48,12 @@ describe('Biller Agggregation Tests', () => {
     expect(response.length).toBeGreaterThanOrEqual(1);
   });
 
-  it('should fetch biller products', async () => {
-    const response = await billerAggregationService.getBillerProducts(billerId);
-    // console.log({ response });
-    billPaymentProductId = response.products[0].billPaymentProductId;
-    expect(response.products.length).toBeGreaterThanOrEqual(1);
-  });
+  // it('should fetch biller products', async () => {
+  //   const response = await billerAggregationService.getBillerProducts(billerId);
+  //   // console.log({ response });
+  //   billPaymentProductId = response.products[0].billPaymentProductId;
+  //   expect(response.products.length).toBeGreaterThanOrEqual(1);
+  // });
 
   it('should validate customer', async () => {
     try {
