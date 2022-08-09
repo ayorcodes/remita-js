@@ -2,6 +2,7 @@ import { IBaseResponse } from '../../../shared/base-response';
 
 export interface ICreateInvoiceResponse extends IBaseResponse {
   RRR: string;
+  hash: string
 }
 
 export interface InvoiceStatusResponse extends IBaseResponse {
