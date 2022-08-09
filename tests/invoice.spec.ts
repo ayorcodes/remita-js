@@ -39,6 +39,7 @@ describe('Invoice Tests', () => {
     standardRRR = response.RRR;
 
     expect(response.RRR).toBeDefined();
+    expect(response.hash).toBeDefined();
   });
 
   it('should create a split_payment invoice', async () => {

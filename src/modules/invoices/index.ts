@@ -43,6 +43,8 @@ export class InvoiceService extends BaseService {
       { headers: invoiceHeaders }
     );
 
+    response.data.hash = hash;
+
     return Helper.handleResponse(response);
   }
 
