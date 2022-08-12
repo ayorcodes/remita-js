@@ -17,7 +17,7 @@
     "noImplicitThis": false,
     "strictNullChecks": false,
     "declaration": true,
-    "lib": ["esnext"]
+    "lib": ["esnext", "dom"]
   },
   "include": ["src/**/*", "dist/src/**/*", "__tests__/**/*"]
 }

@@ -1,7 +1,7 @@
-import { AppModuleKeys } from '../../constants/module.keys';
-import { IBaseResponse } from '../../shared/base-response';
-import { BaseService } from '../../shared/base-service';
-import { DirectDebitService } from './direct-debit';
+import { AppModuleKeys } from "../../constants/module.keys";
+import { IBaseResponse } from "../../shared/base-response";
+import { BaseService } from "../../shared/base-service";
+import { DirectDebitService } from "./direct-debit";
 import {
   ICancelDebitInstruction,
   ICreateDebitInstruction,
@@ -12,7 +12,7 @@ import {
   IRequestMandateOTP,
   IStopMandate,
   IValidateMandateOTP,
-} from './direct-debit/direct-debit.dto';
+} from "./direct-debit/direct-debit.dto";
 import {
   ICancelDebitInstructionResponse,
   ICreateMandateResponse,
@@ -23,12 +23,12 @@ import {
   ISendDebitInstructionResponse,
   IStopMandateResponse,
   IValidateMandateOTPResponse,
-} from './direct-debit/direct-debit.responses';
-import { InvoiceService } from './invoice';
+} from "./direct-debit/direct-debit.responses";
+import { InvoiceService } from "./invoice";
 import {
   ICreateInvoiceResponse,
   InvoiceStatusResponse,
-} from './invoice/invoice.responses';
+} from "./invoice/invoice.responses";
 import {
   ICreateInvoice,
   ICreateSplitPaymentInvoice,
@@ -36,7 +36,8 @@ import {
   ICreateCustomFieldsSplitPaymentInvoice,
   InvoiceStatusRRR,
   InvoiceStatusOrderId,
-} from './invoice/invoices.dto';
+  IMakePaymentDto,
+} from "./invoice/invoices.dto";
 
 // const key = AppModuleKeys.PAYMENTS_MODULE;
 
@@ -115,5 +116,9 @@ export class PaymentsService {
     dto: ICancelDebitInstruction
   ): Promise<ICancelDebitInstructionResponse> {
     return dds.cancelDebitInstruction(dto);
+  }
+
+  showPaymentWindow(dto: IMakePaymentDto): Promise<void> {
+    return is.showPaymentWindow(dto);
   }
 }
