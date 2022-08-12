@@ -1,4 +1,5 @@
-import { CustomField } from '../direct-debit/direct-debit.dto';
+import { CustomField } from "../direct-debit/direct-debit.dto";
+import { IMakePaymentResponse } from "./invoice.responses";
 
 export interface InvoiceLineItems {
   lineItemsId: string;
@@ -10,7 +11,7 @@ export interface InvoiceLineItems {
 }
 
 export interface ICreateInvoice {
-  type: 'standard';
+  type: "standard";
   orderId: string;
   amount: string;
   payerName: string;
@@ -20,7 +21,7 @@ export interface ICreateInvoice {
 }
 
 export interface ICreateCustomFieldsInvoice {
-  type: 'custom_fields';
+  type: "custom_fields";
   orderId: string;
   amount: string;
   payerName: string;
@@ -31,7 +32,7 @@ export interface ICreateCustomFieldsInvoice {
 }
 
 export interface ICreateCustomFieldsSplitPaymentInvoice {
-  type: 'custom_fields_split_payment';
+  type: "custom_fields_split_payment";
   orderId: string;
   amount: string;
   payerName: string;
@@ -43,7 +44,7 @@ export interface ICreateCustomFieldsSplitPaymentInvoice {
 }
 
 export interface ICreateSplitPaymentInvoice {
-  type: 'split_payment';
+  type: "split_payment";
   orderId: string;
   amount: string;
   payerName: string;
@@ -54,11 +55,20 @@ export interface ICreateSplitPaymentInvoice {
 }
 
 export interface InvoiceStatusRRR {
-  type: 'rrr';
+  type: "rrr";
   value: string;
 }
 
 export interface InvoiceStatusOrderId {
-  type: 'orderId';
+  type: "orderId";
   value: string;
+}
+
+export interface IMakePaymentDto {
+  rrr: string;
+  processRrr?: boolean;
+  transactionId?: string;
+  onSuccess: (dto: IMakePaymentResponse) => void;
+  onError: (dto: IMakePaymentResponse) => void;
+  onClose: () => void;
 }

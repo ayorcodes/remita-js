@@ -1,8 +1,8 @@
-import { IBaseResponse } from '../../../shared/base-response';
+import { IBaseResponse } from "../../../shared/base-response";
 
 export interface ICreateInvoiceResponse extends IBaseResponse {
   RRR: string;
-  hash: string
+  hash: string;
 }
 
 export interface InvoiceStatusResponse extends IBaseResponse {
@@ -10,4 +10,12 @@ export interface InvoiceStatusResponse extends IBaseResponse {
   RRR: string;
   orderId: string;
   transactiontime: string;
+}
+
+export interface IMakePaymentResponse {
+  amount: number;
+  message: string;
+  paymentReference: string;
+  processorId: string;
+  transactionId: string;
 }

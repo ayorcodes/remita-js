@@ -22,6 +22,7 @@ export let testConfig = {
     merchantId: '2547916',
     serviceTypeId: '4430731',
     apiKey: '1946',
+    publicKey: 'QzAwMDAyNzEyNTl8MTEwNjE4NjF8OWZjOWYwNmMyZDk3MDRhYWM3YThiOThlNTNjZTE3ZjYxOTY5NDdmZWE1YzU3NDc0ZjE2ZDZjNTg1YWYxNWY3NWM4ZjMzNzZhNjNhZWZlOWQwNmJhNTFkMjIxYTRiMjYzZDkzNGQ3NTUxNDIxYWNlOGY4ZWEyODY3ZjlhNGUwYTY='
   },
   // directDebit: {
   //   merchantId: '27768931',

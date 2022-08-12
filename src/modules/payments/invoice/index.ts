@@ -1,20 +1,21 @@
-import { AppModuleKeys } from '../../../constants/module.keys';
-import { RemitaOperations } from '../../../constants/operations';
-import { IBaseResponse } from '../../../shared/base-response';
-import { BaseService } from '../../../shared/base-service';
-import { Helper } from '../../../shared/helpers';
+import { AppModuleKeys } from "../../../constants/module.keys";
+import { RemitaOperations } from "../../../constants/operations";
+import { IBaseResponse } from "../../../shared/base-response";
+import { BaseService } from "../../../shared/base-service";
+import { Helper } from "../../../shared/helpers";
 import {
   ICreateInvoiceResponse,
   InvoiceStatusResponse,
-} from './invoice.responses';
+} from "./invoice.responses";
 import {
   ICreateCustomFieldsInvoice,
   ICreateCustomFieldsSplitPaymentInvoice,
   ICreateInvoice,
   ICreateSplitPaymentInvoice,
+  IMakePaymentDto,
   InvoiceStatusOrderId,
   InvoiceStatusRRR,
-} from './invoices.dto';
+} from "./invoices.dto";
 
 const key = AppModuleKeys.PAYMENTS_MODULE;
 
@@ -36,7 +37,7 @@ export class InvoiceService extends BaseService {
     );
 
     const response = await this.request().post(
-      'echannelsvc/merchant/api/paymentinit',
+      "echannelsvc/merchant/api/paymentinit",
       {
         ...dto,
         serviceTypeId,
@@ -55,7 +56,7 @@ export class InvoiceService extends BaseService {
     });
 
     const response = await this.request().post(
-      'echannelsvc/v2/api/deactivate.json',
+      "echannelsvc/v2/api/deactivate.json",
       {
         rrr,
         hash,
@@ -73,7 +74,7 @@ export class InvoiceService extends BaseService {
       this.process(RemitaOperations.invoice.status, dto);
 
     const response = await this.request().get(
-      dto.type == 'rrr'
+      dto.type == "rrr"
         ? `echannelsvc/${merchantId}/${dto.value}/${hash}/status.reg`
         : `echannelsvc/${merchantId}/${dto.value}/${hash}/orderstatus.reg`,
       {
@@ -82,5 +83,28 @@ export class InvoiceService extends BaseService {
     );
 
     return Helper.handleResponse(response, AppModuleKeys.PAYMENTS_MODULE);
+  }
+
+  async showPaymentWindow(dto: IMakePaymentDto) {
+    const { publicKey } = this.configuration;
+
+    const paymentEngine = window.RmPaymentEngine.init({
+      key: publicKey,
+      processRrr: dto.processRrr ?? true,
+      transactionId: dto.transactionId,
+      onSuccess: dto.onSuccess,
+      onError: dto.onError,
+      onClose: dto.onClose,
+      extendedData: {
+        customFields: [
+          {
+            name: "rrr",
+            value: dto.rrr,
+          },
+        ],
+      },
+    });
+
+    paymentEngine.showPaymentWidget();
   }
 }
